@@ -1,0 +1,38 @@
+// This file is part of the materials accompanying the book 
+// "The Elements of Computing Systems" by Nisan and Schocken, 
+// MIT Press. Book site: www.idc.ac.il/tecs
+// File name: projects/03/b/RAM512.hdl
+
+/**
+ * Memory of 512 registers, each 16 bit-wide. Out holds the value
+ * stored at the memory location specified by address. If load==1, then 
+ * the in value is loaded into the memory location specified by address 
+ * (the loaded value will be emitted to out from the next time step onward).
+ */
+
+CHIP RAM512 {
+    IN in[16], load, address[9];
+    OUT out[16];
+
+    PARTS:
+    DMux8Way(in= load ,sel[2] = address[8], sel[1] = address[7], sel[0] = address[6],a= LA ,b= LB ,c= LC ,d= LD ,e= LE ,f= LF ,g= LG ,h= LH );
+    
+    RAM64(in= in ,load= LA ,address[0]= address[0], address[1]= address[1], address[2]= address[2], address[3]= address[3], address[4]= address[4], address[5]= address[5] ,out= RA );
+    
+    RAM64(in= in ,load= LB ,address[0]= address[0], address[1]= address[1], address[2]= address[2], address[3]= address[3], address[4]= address[4], address[5]= address[5] ,out= RB );
+
+    RAM64(in= in ,load= LC ,address[0]= address[0], address[1]= address[1], address[2]= address[2], address[3]= address[3], address[4]= address[4], address[5]= address[5] ,out= RC );
+
+    RAM64(in= in ,load= LD ,address[0]= address[0], address[1]= address[1], address[2]= address[2], address[3]= address[3], address[4]= address[4], address[5]= address[5] ,out= RD );
+
+    RAM64(in= in ,load= LE ,address[0]= address[0], address[1]= address[1], address[2]= address[2], address[3]= address[3], address[4]= address[4], address[5]= address[5] ,out= RE );
+
+    RAM64(in= in ,load= LF ,address[0]= address[0], address[1]= address[1], address[2]= address[2], address[3]= address[3], address[4]= address[4], address[5]= address[5] ,out= RF );
+
+    RAM64(in= in ,load= LG ,address[0]= address[0], address[1]= address[1], address[2]= address[2], address[3]= address[3], address[4]= address[4], address[5]= address[5] ,out= RG );
+
+    RAM64(in= in ,load= LH ,address[0]= address[0], address[1]= address[1], address[2]= address[2], address[3]= address[3], address[4]= address[4], address[5]= address[5] ,out= RH );
+
+    Mux8Way16(a= RA ,b= RB ,c= RC ,d= RD ,e= RE ,f= RF ,g= RG ,h= RH ,sel[2] = address[8], sel[1] = address[7], sel[0] = address[6] ,out= out );
+
+}
