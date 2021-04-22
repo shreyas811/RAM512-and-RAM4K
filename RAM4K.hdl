@@ -1,0 +1,40 @@
+
+
+/**
+ * Memory of 4K registers, each 16 bit-wide. Out holds the value
+ * stored at the memory location specified by address. If load==1, then 
+ * the in value is loaded into the memory location specified by address 
+ * (the loaded value will be emitted to out from the next time step onward).
+ */
+
+CHIP RAM4K {
+    IN in[16], load, address[12];
+    OUT out[16];
+
+    PARTS:
+        
+DMux8Way(in= load ,sel[2] = address[11], sel[1] = address[10], sel[0] = address[9],a= LA ,b= LB ,c= LC ,d= LD ,e= LE ,f= LF ,g= LG ,h= LH );
+
+RAM512(in= in ,load= LA ,address[0]= address[0], address[1]= address[1], address[2]= address[2], address[3]= address[3], address[4]= address[4], address[5]= address[5], address[6]= address[6],address[7]= address[7], address[8]= address[8] ,out= RA );
+
+RAM512(in= in ,load= LB ,address[0]= address[0], address[1]= address[1], address[2]= address[2], address[3]= address[3], address[4]= address[4], address[5]= address[5], address[6]= address[6],address[7]= address[7], address[8]= address[8] ,out= RB );
+
+RAM512(in= in ,load= LC ,address[0]= address[0], address[1]= address[1], address[2]= address[2], address[3]= address[3], address[4]= address[4], address[5]= address[5], address[6]= address[6],address[7]= address[7], address[8]= address[8] ,out= RC );
+
+RAM512(in= in ,load= LD ,address[0]= address[0], address[1]= address[1], address[2]= address[2], address[3]= address[3], address[4]= address[4], address[5]= address[5], address[6]= address[6],address[7]= address[7], address[8]= address[8] ,out= RD );
+
+RAM512(in= in ,load= LE ,address[0]= address[0], address[1]= address[1], address[2]= address[2], address[3]= address[3], address[4]= address[4], address[5]= address[5], address[6]= address[6],address[7]= address[7], address[8]= address[8] ,out= RE );
+
+RAM512(in= in ,load= LF ,address[0]= address[0], address[1]= address[1], address[2]= address[2], address[3]= address[3], address[4]= address[4], address[5]= address[5], address[6]= address[6],address[7]= address[7], address[8]= address[8] ,out= RF );
+
+RAM512(in= in ,load= LG ,address[0]= address[0], address[1]= address[1], address[2]= address[2], address[3]= address[3], address[4]= address[4], address[5]= address[5], address[6]= address[6],address[7]= address[7], address[8]= address[8] ,out= RG );
+
+RAM512(in= in ,load= LH ,address[0]= address[0], address[1]= address[1], address[2]= address[2], address[3]= address[3], address[4]= address[4], address[5]= address[5], address[6]= address[6],address[7]= address[7], address[8]= address[8] ,out= RH );
+
+Mux8Way16(a= RA ,b= RB ,c= RC ,d= RD ,e= RE ,f= RF ,g= RG ,h= RH ,sel[2] = address[11], sel[1] = address[10], sel[0] = address[9] ,out= out );
+
+
+
+
+
+}
